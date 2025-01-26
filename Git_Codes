@@ -86,3 +86,5 @@ cat   -<EOF >  .gitignore
 /tmp
 *.swp
 EOF
+
+# this is a test file
