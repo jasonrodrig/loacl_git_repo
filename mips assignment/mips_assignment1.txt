@@ -1,0 +1,318 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////1. What is the stack used for in MIPS ISA. Give examples with code.
+ans)  Stack is a memory type that is based on the lifo approach, it grows downwards, it is used to in multiple areas like:
+	1) Storing local variables
+	2) Saving return addresses
+	3) Preserving register values across function calls
+
+	Passing additional function arguments (beyond the first 4)
+	Ex:			        .text
+		__start:
+        			addiu $t0,$zero,42
+				
+        			addi $sp,$sp,-4   
+        			sw $t0,0($sp)     
+
+       				addiu $t0,$zero,99 
+        			lw $t0,0($sp)      
+        			addi $sp,$sp,4     
+        			
+				addiu $v0,$zero,10
+        			syscall
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+2. What is $gp used for in MIPS ISA? What is it's value and why is this value important.
+Ans:	- $gp is used to efficiently access global and static variables. These are typically stored in usually a 64 KB region centered around the address in $gp.
+	- Conventionally, $gp is set to 0x10008000, allowing access to data from 0x10000000 to 0x1000FFFF using the offset.
+	- The $gp is pointing at the middle of the array hence the signed offset will give enough address offset to access all the variables in the 64kb space.
+	- MIPS load/store instructions only allow 16-bit signed offsets hence the data pointed at by $gp can be accessed easily using a single instruction due to it's small size.
+	- Efficient Access to frequently used variables.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+3. How is call and return implemented in the MIPS ISA? Cover these points:
+- Instruction flow
+Ans:	i) To call a function a jump and link instruction is used, which redirects the Program Counter(PC) to redirect to the clearly defined label mentioned in the jump statement, at the same time the current after delay slot location is written over the return address register which leads it back to the regular program execution.
+	ii) On completion of the tasks in the function, the PC must return back to the regular program execution after the delay slot, using the instruction jr $ra.
+	
+- Value Passing
+Ans:	i) To pass the value there are 4 argument registers ($a0 - $a3) which send the actual arguments to the function. If 4 aren't enough the values are stored in the stack to be received at the function call.
+	ii) The function gives back the return value in $v0, and also in $v1, if necessary.
+- State Management and Local Variables
+Ans:	i) There could be cases where the registers, that were being used in the main program get overwritten by the callee, hence the values are stored in the stack until the execution is completed and then loaded back to get the same values again.
+	ii) A function could also call upon another function, which could cause the return address of the previous caller getting overwritten, which is solved by storing it in the stack and restoring it on completion of the callee instructions.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+ 4. What are the 3 types of instruction formats in MIPS ISA. Give an example instruction for each
+    type and its encoding to binary.
+Ans:
+        The 3 types of instruction formats in MIPS ISA are:
+        - R-TYPE Instruction - ADD  :	 OPCODE:6'b000000      RS:5'b10001      RT:5'b10010      RD:5'b10000      SHAMT:5'b00000    FUNCT:6'b100000	EX: add $s0, $s1, $s2
+                                       31----------------26  25-----------21  20-----------16  15-----------11  10--------------6  5---------------0
+
+        - I-TYPE Instruction - ADDI :   OPCODE:6'b001000      RS:5'b10011      RT:5'b01000      IMMEDIATE:16'1111111111110100 	EX: addi $t0, $s3, –12
+                                       31----------------26  25-----------21  20-----------16  15-----------------------------0
+
+        - J-TYPE Instruction - J    :   OPCODE:6'b000010      ADDR:26'b00000100000000000000000101	EX:J end //5th instruction 0x08100005
+                                       31----------------26  25-----------------------------------0                                                     
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+5)Convert the following functions to MIPS ISA:
+///////////////////////
+
+ 1. 
+   int is_factor(int num, int factor) {
+     return (num%factor == 0); }
+
+      .text
+
+main: addiu $v0 ,$0 ,10
+     # generate a consatnt number
+     lui $3,0xffee
+     ori $3,$3,0x1234
+     # generate a consatnt factorial
+     lui $4,0xffee
+     ori $4,$4,0x1234
+     # perform modulus using div 
+     div $3,$4
+     # extract modulus result using mfhi
+     mfhi $t0
+     #check if modulus result is zero or not
+     beq $t0, $0, fact
+     #print the result either 0 or 1
+     addi $5, $0, 0
+     syscall
+fact: addi $5, $0 ,1
+      syscall
+////////////////////////////  
+
+2.
+   
+   int sqrt(int num) {
+      int i = 1;
+      while (i * i < num) {
+        i ++;
+      }
+      return i;
+   }
+
+.text
+
+main: addiu $v0 , $0 ,10
+      #genearte a constant number
+      lui $3, 0x00
+      ori $3 ,$3,0x16
+      #assign i = 1
+      addi $4 ,$0 ,1
+
+loop: # i*i = t0
+      mult $4, $4
+      mflo $t0
+      # (i*i<num) ? 1 : 0
+      slt $t1, $t0, $3
+      #if beq = 1 then continue looping, otherewise break      
+      beq $t1 , $0 , label
+      # condition fail then i++
+      addi $4 ,$4 ,1
+      j loop
+
+label:  #store the value of the sqrt root number
+        addiu $5, $4, -1
+        syscall
+//////////////////////////////////
+
+3. 
+   int is_prime(int num) {
+     int nsqrt = isqrt(num);
+     for (int i = 2; i <= nsqrt ; i++) {
+        if (is_factor(num, i)) {
+          return 0;
+        }
+     }
+     return 1;
+   }
+
+.text
+main: addiu $v0,$0,10
+      # generate a constant number
+      lui $3 , 0x0000
+      ori $3 , $3 , 0x0011
+      #generate a constant number = 1
+      addi $4 , $0 ,1
+      #genreate a constant number i = 2
+      addi $5 , $0 ,2
+      # if the number is negative or 1 or zero then not a prime 
+      blez $3 , label_1
+loop: #check the condition i<=nsqrt 
+      slt $t0, $5, $3      
+      #compare t0 and 0 
+      beq $t0 , $0 , is_prime_check
+      # if (num % i) == 0
+      div $3, $5
+      # extract the modulus result
+      mfhi $t2 
+      #check if modulus result is 0
+      beq $t2, $0, not_prime 
+      #increment i++
+      addi $5, $5 ,1 
+      j loop
+label_1:
+         addi $28 , $0 , 0 
+         syscall
+is_prime_check: 
+            addi $28 , $0 , 1
+            syscall
+
+not_prime:  # not a prime value,  
+            addi $28 , $0 , 0
+            syscall
+
+#c code for is_prime_number  
+#include <stdio.h>
+
+#int main() { int num, i, is_prime = 1
+
+#printf("Enter a positive integer: ");
+
+#scanf("%d", &num);
+
+
+#if (num <= 1) {
+
+#    is_prime = 0;  // Numbers less than or equal to 1 are not prime
+
+#} else {
+
+ #   for (i = 2; i <= num / 2; i++) {
+
+#        if (num % i == 0) {
+
+ #           is_prime = 0;  // Found a divisor, not prime
+
+ #           break;
+
+#        }
+
+ #   }
+
+#}
+
+
+#if (is_prime)
+
+ #   printf("%d is a prime number.\n", num);
+
+
+#else
+
+ #   printf("%d is not a prime number.\n", num);
+
+#return 0;   }     
+
+///////////////////////////////////
+
+4. 
+   void double(int *a) {
+     *a = *a * 2;
+   }
+   
+.text
+main: addi $v0 ,$0 ,10
+      lui $t0,0x1000
+      addi $3 ,$0 , 4
+      sw $3, 0($t0)
+      lw $t1, 0($t0)
+      sll $t2, $t1, 1 
+      sw $t2 ,0($t0)
+      syscall
+
+////////////////////////////
+
+5.  
+   int is_in_circle(int center_x, int center_y, int radius, int point_x, int point_y) {
+      int diff_x = center_x - point_x;
+      int diff_y = center_y - point_y;
+      int sq_dist = diff_x * diff_x + diff_y * diff_y;
+      if (sq_dist < radius) {
+        return 1;
+      } else {
+        return 0;
+      }
+   }
+
+.text
+
+main : addiu $v0, $0 ,10
+       #$t0 radius
+       #$t1 center_x
+       #$t2 center_y
+       #$t3 point_x
+       #$t4 point_y
+       
+       lui $t0, 0x0000
+       ori $t0, $t0 ,0x0003
+       
+       lui $t1, 0x0000
+       ori $t1, $t1 ,0x0000
+
+       lui $t2, 0x0000
+       ori $t2, $t2 ,0x0000
+
+       lui $t3, 0x0000
+       ori $t3, $t3 ,0x0001
+
+       lui $t4, 0x0000
+       ori $t4, $t4 ,0x0001
+    
+       #$3 = diff_x
+       #$4 = diff_y  
+       sub $3, $t3 ,$t1
+       sub $4, $t4 ,$t2
+       
+       # diff_x * diff_x 
+       
+       mult $3, $3
+       mflo $5
+       
+      #diff_y * diff_y
+       mult $4, $4 
+       mflo $6
+      
+       #$7 = sq_dist
+       add $7, $5 ,$6 
+       
+       #(sq_dist < radius) 
+       slt $28 $7 $t0
+       beq $28 $0 return
+       
+       #print 1 if condition false 
+       addiu $29, $0 ,1
+       syscall
+
+return: #print 1 if condition false  
+        addiu $29, $0 ,0
+        syscall
+
+/////////////////////////////////////
+
+6.
+  int local_array() {
+    int arr[5];
+    arr[3] = 7;
+    arr[4] = arr[3] * 2;
+    return arr[4];
+  }
+        
+        .text
+main:  addi $v0 ,$0 ,10
+       addi $sp, $sp, -20       # Allocate 20 bytes on stack for arr[5]
+       addi $t0, $0,  7         # arr[3] = 7
+       sw $t0, 12($sp)          # store 7 at arr[3] (3*4 = 12 offset)
+       lw $t1, 12($sp)          # load arr[3]
+       sll $t2, $t1, 1          # multiply arr[3] by 2 
+       sw $t2, 16($sp)          # arr[4] = arr[3]*2 (4*4 = 16 offset)
+       lw $t2, 16($sp)          # load arr[4] into $v1 for return
+       addi $sp, $sp, 20        # deallocate stack space
+       syscall
+
+///////////////////////////////////////

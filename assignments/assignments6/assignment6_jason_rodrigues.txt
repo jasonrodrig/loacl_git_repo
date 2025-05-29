@@ -1,0 +1,234 @@
+//1. Write a function that takes a string as input and returns the string reversed.
+//int main() {
+//  char[] s = "Hello";
+//  char[] r = reverse(s);
+//  printf("%s\n", r); // "olleH"
+// printf("%s\n", s); // "Hello"
+//  return 0;
+//}
+
+
+#include<stdio.h>
+#include<stdlib.h>
+
+char* reverse( char s[] )
+{       
+	int i , j;
+	int len = 0;
+	char temp;
+	for(i=0; *(s+i)!='\0' ;i++){
+		len++;
+	}
+	char *oth_arr = (char*)malloc(len*sizeof(char));
+	for(i=0;i<len;i++)
+	{
+		oth_arr[i]=s[i];
+	}
+	for(i=0;i<len/2;i++)
+	{
+	       	temp = *(oth_arr+i);
+		*(oth_arr+i) = *(oth_arr+len-i-1);
+		*(oth_arr+len-i-1)=temp;
+	}
+	return oth_arr;
+}
+
+int main() {
+  char s[] = "Hello";
+  char *r = reverse(s);
+  printf("%s\n", r); // "olleH"
+  printf("%s\n", s); // "Hello"
+  free(r);
+  return 0;
+}
+
+results:
+olleH
+Hello
+
+//2. Write a function that takes two strings and returns a string which is a concatenation of the two strings.
+
+//Example:
+//int main() {
+//  char[] s1 = "Hello";
+//  char[] s2 = "World";
+//  char* s3 = concat(s1, s2);
+//  printf("%s\n", s3); // "HelloWorld"
+//  printf("%s\n", s1); // "Hello"
+//  printf("%s\n", s2); // "World"
+//  return 0;
+//}
+
+#include <stdio.h>
+#include <stdlib.h>
+char* concat(char s1[] ,  char s2[])
+{
+	char *wordcombine1 = s1;
+	char *wordcombine2 = s2;
+        int i , j;
+	for(i = 0 ; *(wordcombine1+i)!='\0'; i++ ){}
+       	for(j = 0 ; *(wordcombine2+j)!='\0'; j++ ){}
+        char *wordcombine =(char*)malloc((i+j)*sizeof(char));
+	for(i = 0 ; *(wordcombine1+i)!='\0'; i++){
+		wordcombine[i]= *(wordcombine1+i);	
+	}
+        for(j = 0 ; *(wordcombine2+j)!='\0'; j++ ){
+		wordcombine[i+j]= *(wordcombine2+j);
+	}
+	return(wordcombine);
+}
+
+
+int main() {
+  char s1[] = "Hello";
+  char s2[] = "World";
+  char* s3 = concat(s1, s2);
+  printf("%s\n", s3); // "HelloWorld"
+  printf("%s\n", s1); // "Hello"
+  printf("%s\n", s2); // "World"
+  free(s3);
+  return 0;
+}
+
+results:
+HelloWorld
+Hello
+World
+
+
+//3. Write a function that takes int 'n' and returns an int array of size 'n' filled with first 'n' prime numbers.
+#include<stdio.h>
+#include<math.h>
+#include<stdlib.h>
+int is_prime(int num)
+{
+    if(num < 2) return 0;
+    for(int i = 2; i * i <= num; i++)
+    {
+        if(num % i == 0) return 0;
+    }
+    return 1;
+}
+
+int *get_primes(int n)
+{
+    int *primes = (int*)malloc(n * sizeof(int));
+    int count = 0;
+    int num = 2;
+    while(count < n)
+    {
+        if(is_prime(num))
+        {
+            primes[count] = num;
+            count++;
+        }
+        num++;
+    }
+    return primes;
+}
+
+int main() 
+{
+	int n = 5;
+	int count = 0, i = 1, nth = 0;
+
+	int *primes = get_primes(n);
+	for (int i = 0; i < n; i++) {
+		printf("%d ", primes[i]);
+	}
+         // 2 3 5 7 11
+	  printf("\n");
+	  free(primes);
+	  return 0;
+}
+
+results:
+2 3 5 7 11
+
+//4. Write a function that takes an int array and returns an array with the differences between elements of the input array.
+
+//Example:
+//int main() {
+//  int arr[] = {1, 7, 4, 10, 5};
+//  int* diffs = get_diffs(arr, 5);
+//  for (int i = 0; i < 4; i++) {
+//    printf("%d ", diffs[i]);
+//  }
+  // 6 -3 6 -5
+//  printf("\n");
+// return 0;
+//}
+
+#include <stdio.h>
+#include <stdlib.h>
+int* get_diffs(int arr[], int size )
+{
+	int i , j =0;
+	int *oth_arr=(int*)malloc((size - 1)*sizeof(int)); 
+ 	for(i=0;i<size;i++)
+	{
+	     oth_arr[i]= -arr[j+1]+arr[i];
+	     j++;
+	}
+	return oth_arr;
+}	
+
+int main() {
+  int arr[] = {1, 7, 4, 10, 5};
+  int *diffs = get_diffs(arr, 5);
+  for (int i = 0; i < 4; i++) {
+    printf("%d ", diffs[i]);
+  }
+  // 6 -3 6 -5
+  printf("\n");
+  free(diffs);
+  return 0;
+}
+
+results:
+6 -3 6 -5
+
+
+//5. Write a function that takes an int array and returns a new array with the elements of the input array doubled.
+
+//Example:
+
+//int main() {
+//  int arr[] = {1, 7, 4, 10, 5};
+//  int* doubled = double_elements_new(arr, 5);
+//  for (int i = 0; i < 5; i++) {
+//    printf("%d ", doubled[i]);
+//  }
+//  // 2 14 8 20 10
+//  printf("\n");
+//  return 0;
+//}
+
+#include<stdio.h>
+#include<stdlib.h>
+
+int* double_elements_new(int arr[] , int size)
+{
+	int *other_arr = (int*)malloc(size*sizeof(int));
+	for(int i =0; i<size; i++)
+	{
+		other_arr[i]=2*arr[i];
+	}
+	return(other_arr);
+}
+
+int main() {
+  int arr[] = {1, 7, 4, 10, 5};
+  int* doubled = double_elements_new(arr, 5);
+  for (int i = 0; i < 5; i++) {
+    printf("%d ", doubled[i]);
+  }
+  // 2 14 8 20 10
+  printf("\n");
+  free(doubled);
+  return 0;
+}
+
+results:
+2 14 8 20 10
+

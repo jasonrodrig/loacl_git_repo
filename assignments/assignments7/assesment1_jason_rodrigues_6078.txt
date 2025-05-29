@@ -1,0 +1,226 @@
+//1. Write a function which takes a list of integers and its length and returns the sum of all the prime numbers in the list.
+ 
+//Example:
+ 
+//int x[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+//int s = sum_primes(x, 10)
+ 
+//s == 17
+#include<stdio.h>
+int sum_primes(int x[] ,int size)
+{
+        int i;
+	int result=0;
+	int primenum=0;
+	for(i=0; i<size  ;i++)
+	{
+		if(x[i]==2){
+			primenum=2;
+		}
+		else if(x[i]==3){
+			primenum=3;
+		}
+		else if(x[i]==5){
+			primenum=5;
+		}
+		else if(x[i]==7){
+			primenum=7;
+		}
+		else{
+			continue;
+		}
+		result+=primenum;
+	}
+	return result;
+}
+
+void main(){
+	int x[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        int t = sum_primes(x,10);
+	printf("%d\n", t);
+}
+
+results: 17
+
+
+//2. Write a function which takes an unsigned integer and returns the sum of all the factors of the number.
+ 
+//Example:
+ 
+//int s = sum_factors(10)
+//s == 18   // 1 + 2 + 5 + 10
+
+#include<stdio.h>
+int sum_factors(int n)
+{
+	int result = n;
+	int num = n;
+	for(int i=0;i<4;i++)
+	{
+		num=num/2;
+		result+=num;
+	}
+	return result;
+}
+int main()
+{
+	int n=10;
+	int s = sum_factors(10);
+	printf("%d",s);
+        return 0;
+}
+
+result = 10
+//3. Write a function which takes an unsigned integer and returns the sum of all the digits in the number.
+ 
+//Example:
+ 
+//int s = sum_digits(1278)
+//s == 18   // 1 + 2 + 7 + 8
+ 
+//Hint: Use the % and / operators to extract digits from the number.
+
+#include<stdio.h>
+int sum_digits(int n)
+{
+	int i , j;
+	int temp = n;
+	int len = 0;
+	int result = 0;
+	if(temp==0)
+	{
+		len=1;
+	}
+	while(temp>0){
+		temp=temp/10;
+		len++;
+	}
+	temp = n;
+	int rem = 0;
+	int arr[len];
+	for(i=0;i<len;i++){
+		rem = temp % 10 ;
+		temp = temp / 10;
+		arr[i]=rem;
+	}
+	for(i=0;i<len;i++){
+		result = result + arr[i];
+	}
+	return result;
+}
+
+int main(){
+
+	int n = 1278;
+	int s = sum_digits(n);
+	printf("%d",s);
+}
+
+result= 18
+
+
+//4. Write a function which takes a string and returns the number of words in the string. Assume
+//that there is always one space separating the words and there are no spaces at the begining
+//or the end of the string.
+ 
+//Example:
+ 
+//int s = count_words("hello world, how are you?")
+//s == 5
+ 
+//Empty string should return a count of 0.
+ 
+//int s = count_words("")
+//s == 0
+
+#include<stdio.h>
+int count_words(char s[])
+{       
+	int i ;
+	int count = 0 ;
+	if(s[0] ==' '){
+		count=0;
+	}
+	else{
+		for(i=1;s[i]==' ';i++){
+			count++;
+		}
+	}
+	
+        return count;
+}
+int main(){
+	char str1[]="hello world, how are you?";
+	char str2[]="";
+	int s = count_words(str1);
+	printf("%d",s);
+	int u = count_words(str2);
+        printf("%d",u);
+	return 0;
+}
+
+result = 00
+
+//6. Write a function that evaluates a quadratic polynomial at a point. The arguments to the
+//function are an array of 3 integers (coefficients of the polynomial), and the point where the
+//polynomial is to be evaluated.
+ 
+//float coefficients[] = {2.0, -1.0, -3.2}; // Polynomial: -3.2*x^2 - 1.0*x + 2.0
+//result = evaluate_quad(coefficients, 3.5);
+//result == -40.7  // You may get slightly different results because of floating point inaccuracy
+
+#include<stdio.h>
+#include<math.h>
+
+float evaluate_quad( float coefficients[] ,float num )
+{
+	float result = ( ( (coefficients[2]) * (num*num) ) + ( coefficients[1] * (num) ) + coefficients[0] );
+	return result;
+}
+float main(){
+
+	float coefficients[]={ 2.0, -1.0 , -3.2 };
+	float results = evaluate_quad(coefficients, 3.5);
+	printf("%f", results);
+	return 0;
+}
+
+result = -40.7000
+
+//7. This is a generalization of problem 6.
+//Write a function that evaluates the value of a polynomial at a point. The arguments to the
+//function are the degree of the polynomial, an array with coefficients and the point to evaluate at.
+/*float coefficients[] = {2.0, 1.0, -1.5, 0.75}; // Polynomial: 0.75*x^3 - 1.5*x^2 + 1.0*x + 2.0
+int degree = 3;
+result = eval_poly(degree, coefficients, 2.0);
+result == 4.0
+*/
+
+#include<stdio.h>
+#include<math.h>
+
+
+float eval_poly( int degree, float coefficients[] , float num )
+{
+        float temp = 1.0;
+	int i=1;
+	float result= 0.0;
+	while(i<degree)
+	{
+		result += coefficients[i]*temp;
+		temp=temp*num;
+		i++;
+	}
+
+	//float result = ( ( (coefficients[2]) * ( pow(num , degree-1) ) + ( coefficients[1] * ( ( pow(num , degree-2)) + coefficients[0] );
+	return result;
+}
+float main(){
+
+	float coefficients[]={ 2.0, 1.0 , -1.5, 0.75 };
+	float results = eval_poly( 3 , coefficients , 3.5);	
+	printf("%f", results);
+	return 0;
+}
+
+result = -4.2500 

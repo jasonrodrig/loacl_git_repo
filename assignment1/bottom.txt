@@ -1,0 +1,3 @@
+free(animal);
+return 0;
+}

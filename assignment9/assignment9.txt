@@ -1,0 +1,153 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node {
+    int value;
+    struct node* next;
+};
+
+struct node* remove_at(struct node* head, int position);
+
+void append(struct node **stack,int data){
+
+    struct node* newdata = (struct node*)malloc(sizeof(struct node));;
+    newdata->value = data;
+    newdata->next = *stack;
+    *stack = newdata;
+}
+
+struct node* remove_ele(struct node* stack,int data){
+
+    if(stack == NULL){
+        printf("empty");
+        return stack;
+    }
+
+    int count =1;
+    struct node* temp = stack;
+
+
+    while (stack != NULL) {
+        if(stack->value == data){
+            break;
+            }
+            stack = stack->next;        // Move to the next node
+            count +=1;
+        }
+    stack = remove_at(temp,count);
+}
+
+struct node* remove_at(struct node* head, int position) {
+
+    if (head == NULL) {
+        printf("The list is empty.\n");
+        return head;
+    }
+
+    struct node* temp = head;
+
+    // Case 1: If the head is to be deleted
+    if (position == 1) {
+        head = head->next;
+        free(temp);
+        return head;
+    }
+
+    // Traverse to the node just before the one to delete
+    struct node* prev = NULL;
+    for (int i = 1; i < position && temp != NULL; i++) {
+        prev = temp;
+        temp = temp->next;
+    }
+
+    // If position is out of bounds
+    if (temp == NULL) {
+        printf("Position %d is out of bounds.\n", position);
+        return head;
+    }
+
+    // Unlink the node to delete and free it
+    prev->next = temp->next;
+    free(temp);
+
+    return head;
+}
+
+int len(struct node *stack) {
+
+    int count = 0;
+    struct node *temp = stack;
+    while (temp != NULL) {  // Traverse the list until the end
+        count +=1;
+        temp = temp->next;
+    }
+    return count;
+}
+
+int *slice(struct node *stack,int start, int end) {
+
+    struct node *temp = stack;
+    int *arr = malloc(sizeof(int)*(end-start+1));
+    int i=0;
+    while(temp != NULL) {
+        if(i >= start-1 && i < end){
+
+        arr[i-start+1] = temp->value;
+        }
+        i++;
+        temp = temp->next;
+    }
+    return arr;
+}
+
+void print_list(struct node *stack) {
+
+    struct node *temp = stack;
+    while (temp != NULL) {  // Traverse the list until the end
+        printf("%d -> ", temp->value);
+        temp = temp->next;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+
+    int size,pos,ele;
+    printf("Enter the size of list ");
+    scanf("%d",&size);
+
+    struct node* initial_node = NULL;
+    printf("\nThe the list elements are: \n");
+    for(int i=0;i<size;i++){
+        append(&initial_node,i+1);
+    }
+    print_list(initial_node);
+
+    printf("Enter the element which needs to be removed: ");
+    scanf("%d",&ele);
+    printf("Removing element - %d \n", ele);
+    remove_ele(initial_node,ele);
+    print_list(initial_node);
+
+    printf("Enter the position of element which needs to be removed: ");
+    scanf("%d",&pos);
+    printf("Removing element in the position - %d \n", pos);
+    initial_node = remove_at(initial_node,pos);
+    print_list(initial_node);
+
+    int *sliced_array;
+    int start = 3;
+    int end = 6;
+    sliced_array = slice(initial_node,start,end);
+    printf("Sliced Array\n");
+    for(int i = 0; i < end - start + 1; i++) {
+        printf("%d ",sliced_array[i]);
+    }
+    printf("\n");
+
+    int length ;
+    length = len(initial_node);
+    printf("len is = %d\n",length);
+
+    return 0;
+}

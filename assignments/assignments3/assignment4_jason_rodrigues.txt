@@ -1,0 +1,581 @@
+ASSIGNMENT4
+
+
+//1. 
+
+#include<stdio.h>
+int str_len(char name[])
+{       int i, count=0;
+	for(i=0;name[i]!='\0';i++)
+	{
+		count++;
+	}
+	return count;
+}
+
+void main()
+{
+	char name[20];
+
+	printf("enter the name\n");
+	scanf("%s", name);
+        printf("the length of the string is %d\n",str_len(name));
+}
+
+results:
+input: enter the name: Jason
+output: the length of the string is 5
+
+//2.
+
+#include<stdio.h>
+int to_upper(char name )
+{
+        if(name>="a" && name<="z")
+		return (name -'a'+'A');
+}
+void hello_person( char name[])
+{
+	name[0]=to_upper(name[0]);
+	printf("Hello, %s\n",name);
+}
+void main()
+{
+	hello_person("jason");
+}
+
+results:
+input: enter the letter: Jason
+output: Hello JASON
+
+// 3.
+
+#include <stdio.h>
+#include <string.h>
+
+int is_substring( char str[], char sub_str[]) {
+    int str_len = strlen(str);
+    int sub_str_len = strlen(sub_str);
+    if (sub_str_len > str_len) {
+        return 0;
+    }
+    for (int loc = 0; loc <= str_len - sub_str_len; loc++) {
+        int match = 1;
+
+        for (int checkpt = 0; checkpt < sub_str_len; checkpt++) {
+
+            if (str[loc + checkpt] != sub_str[checkpt]) {
+                match = 0; 
+                break; 
+            }
+        }
+        if (match) {
+            return 1; 
+        }
+    }
+	return 0;
+}
+void main()
+{
+	char sub_str[20], str[20];
+        printf("enetr the string\n");
+        scanf("%s",str);
+        printf("enter the substring\n");
+        scanf("%s",sub_str);
+        printf("%d",is_substring(str,sub_str));
+}
+
+results:
+case1: it is substring:
+input: enter the string: Jason
+input: enter the substring :aso
+output: 1
+
+case1: it is not substring:
+input: enter the string: Jason
+input: enter the substring :Aso
+output: 0
+
+//4.
+
+#include <stdio.h>
+#include <string.h>
+void is_histogram( char str[] ){
+int count_a = 0; int count_b = 0; int  count_c = 0; int count_d = 0; int count_e = 0; int count_f =0; int count_g = 0; int count_h = 0 ; int count_i = 0; int count_j = 0; int count_k = 0; int count_l = 0; int  count_m = 0; int count_n = 0; int count_o = 0; int count_p =0; int count_q = 0; int count_r = 0 ; int count_s = 0; int count_t = 0; int count_u = 0; int count_v = 0; int  count_w = 0; int count_x = 0; int count_y = 0; int count_z =0; 
+
+for(int i = 0;i<strlen(str);i++)
+{
+	if(str[i]=='a'||str[i]=='A')
+		count_a++;
+	if(str[i]=='b'||str[i]=='B')
+                count_b++;
+	if(str[i]=='c'||str[i]=='C')
+                count_c++;
+        if(str[i]=='d'||str[i]=='D')
+                count_d++;
+	if(str[i]=='e'||str[i]=='E')
+                count_e++;
+        if(str[i]=='f'||str[i]=='F')
+                count_f++;
+        if(str[i]=='g'||str[i]=='G')
+                count_g++;
+        if(str[i]=='h'||str[i]=='H')
+                count_h++;
+	if(str[i]=='i'||str[i]=='I')
+                count_i++;
+        if(str[i]=='j'||str[i]=='J')
+                count_j++;
+        if(str[i]=='k'||str[i]=='K')
+                count_k++;
+        if(str[i]=='l'||str[i]=='L')
+                count_l++;
+        if(str[i]=='m'||str[i]=='M')
+                count_m++;
+        if(str[i]=='n'||str[i]=='N')
+                count_n++;
+        if(str[i]=='o'||str[i]=='O')
+                count_o++;
+        if(str[i]=='p'||str[i]=='P')
+                count_p++;
+	if(str[i]=='q'||str[i]=='Q')
+                count_q++;
+        if(str[i]=='r'||str[i]=='R')
+                count_r++;
+        if(str[i]=='s'||str[i]=='S')
+                count_s++;
+        if(str[i]=='t'||str[i]=='T')
+                count_t++;
+        if(str[i]=='u'||str[i]=='U')
+                count_u++;
+        if(str[i]=='v'||str[i]=='V')
+                count_v++;
+        if(str[i]=='w'||str[i]=='W')
+                count_w++;
+        if(str[i]=='x'||str[i]=='X')
+                count_x++;
+	if(str[i]=='y'||str[i]=='Y')
+                count_y++;
+        if(str[i]=='z'||str[i]=='Z')
+                count_z++;
+}
+	printf("a  | ");
+        for(int i = 0; i < count_a ; i++)
+        printf("*");
+	printf("\n");
+	printf("b  | ");
+	for(int i = 0; i < count_b ; i++)
+        printf("*");
+        printf("\n");
+	printf("c  | ");
+	for(int i = 0; i < count_c ; i++)
+        printf("*");
+        printf("\n");
+	printf("d  | ");
+	for(int i = 0; i < count_d ; i++)
+        printf("*");
+        printf("\n");
+	printf("e  | ");
+	for(int i = 0; i < count_e ; i++)
+        printf("*");
+        printf("\n");
+	printf("f  | ");
+	for(int i = 0; i < count_f ; i++)
+        printf("*");
+        printf("\n");
+	printf("g  | ");
+	for(int i = 0; i < count_g ; i++)
+        printf("*");
+        printf("\n");
+	printf("h  | ");
+	for(int i = 0; i < count_h ; i++)
+        printf("*");
+        printf("\n");
+	printf("i  | ");
+	for(int i = 0; i < count_i ; i++)
+        printf("*");
+        printf("\n");
+	printf("j  | ");
+	for(int i = 0; i < count_j ; i++)
+        printf("*");
+        printf("\n");
+	printf("k  | ");
+	for(int i = 0; i < count_k ; i++)
+        printf("*");
+        printf("\n");
+	printf("l  | ");
+	for(int i = 0; i < count_l ; i++)
+        printf("*");
+        printf("\n");
+	printf("m  | ");
+	for(int i = 0; i < count_m ; i++)
+        printf("*");
+        printf("\n");
+	printf("n  | ");
+	for(int i = 0; i < count_n ; i++)
+        printf("*");
+        printf("\n");
+	printf("o  | ");
+	for(int i = 0; i < count_o ; i++)
+        printf("*");
+        printf("\n");
+	printf("p  | ");
+	for(int i = 0; i < count_p ; i++)
+        printf("*");
+        printf("\n");
+	printf("q  | ");
+	for(int i = 0; i < count_q ; i++)
+        printf("*");
+        printf("\n");
+	printf("r  | ");
+	for(int i = 0; i < count_r ; i++)
+        printf("*");
+        printf("\n");
+	printf("s  | ");
+	for(int i = 0; i < count_s ; i++)
+        printf("*");
+        printf("\n");
+	printf("t  | ");
+	for(int i = 0; i < count_t ; i++)
+        printf("*");
+        printf("\n");
+	printf("u  | ");
+	for(int i = 0; i < count_u ; i++)
+        printf("*");
+        printf("\n");
+	printf("v  | ");
+	for(int i = 0; i < count_v ; i++)
+        printf("*");
+        printf("\n");
+        printf("w  | ");
+	for(int i = 0; i < count_w ; i++)
+        printf("*");
+        printf("\n");
+	printf("x  | ");
+	for(int i = 0; i < count_x ; i++)
+        printf("*");
+        printf("\n");
+	printf("y  | ");
+	for(int i = 0; i < count_y ; i++)
+        printf("*");
+        printf("\n");
+	printf("z  | ");
+	for(int i = 0; i < count_z ; i++)
+        printf("*");
+        printf("\n");
+}
+
+void main()
+{
+	char str[26] ="Programming"; 
+	is_histogram(str);
+}
+
+Results:
+a: *
+g: **
+i: *
+m: **
+n: *
+o: *
+p: *
+r: **
+
+//5.
+
+#include<stdio.h>
+#include<stdlib.h>
+#define PI 3.14159265359
+float my_rand()
+{
+  return ((float)rand() / (float)RAND_MAX) * 2.0f - 1.0f;
+}
+float abso(float num)
+{
+	if(num>=0)
+	{
+		return num;
+	}
+	return (-1)*num;
+}
+int is_inside_circle(float x , float y , float cx, float cy, float r)
+{
+	float dis;
+	dis=(x-cx)*(x-cx)+(y-cy)*(y-cy);
+	return (dis<r*r);
+}
+float val_pi(int trials)
+{
+	float no_of_points = 0;
+	float x , y , err , estimated_pi;
+	float percentage_err;
+	int i;
+	for(i=0;i<trials;i++)
+	{
+		x=my_rand();
+		y=my_rand();
+		if(is_inside_circle(x,y,0,0,1))
+		{
+			no_of_points+=1;
+		}
+	}
+        estimated_pi = 4*(no_of_points/trials);
+	err = PI-estimated_pi;
+	percentage_err = abso(err/PI)*100;
+	return percentage_err;
+}
+void main()
+{
+	int trails;
+	printf("enter the trails");
+	scanf("%d",&trails);
+	printf("the percentage error is :%f",val_pi(trails));
+}
+results:
+Enter the number of trials:
+80
+The percentage error of pi that was calculated = 1.323938
+
+Enter the number of trials:
+100
+The percentage error of pi that was calculated = 8.326749
+
+Enter the number of trials:
+1000
+The percentage error of pi that was calculated = 1.705905
+
+//6.
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+#define PI 3.14159265359
+float my_rand()
+{
+  return ((float)rand() / (float)RAND_MAX) * 2.0f - 1.0f;
+}
+float abso(float num)
+{
+	if(num>=0)
+	{
+		return num;
+	}
+	return (-1)*num;
+}
+int is_inside_circle(float x , float y , float cx, float cy, float r)
+{
+	float dis;
+	dis=(x-cx)*(x-cx)+(y-cy)*(y-cy);
+	return (dis<r*r);
+}
+float val_pi(int trials)
+{
+	float no_of_points = 0;
+	float x , y , err , estimated_pi;
+	float percentage_err;
+	int i;
+	for(i=0;i<trials;i++)
+	{
+		x=my_rand();
+		y=my_rand();
+		if(is_inside_circle(x,y,0,0,1))
+		{
+			no_of_points+=1;
+		}
+	}
+        estimated_pi = 4*(no_of_points/trials);
+	err = PI-estimated_pi;
+	percentage_err = abso(err/PI)*100;
+	return percentage_err;
+}
+void main()
+{
+        int i , j ;
+        double z= 0;
+        int trails = 150;
+        for (j = 1; j*10 <=trails ; j++)
+        {
+                z=round(val_pi(10));
+                printf("%d\t",10*j);
+                for(;z>=0;z--)
+                {
+                        printf("*");
+                }
+                printf("\n");
+        }
+}
+results:
+
+10	***
+20	************
+30	************
+40	***
+50	****************************
+60	************
+70	***
+80	************
+90	***************************************************************
+100	************
+110	************
+120	****************
+130	****************************
+140	****************************
+150	************
+
+
+//1. Implement and test stack of integers using array. It should support the following interface.
+
+//void push(int x);  push an integer x onto the stack
+//int pop();  remove the top element from the stack and return it
+//int is_empty();  return 1 if the stack is empty, 0 otherwise
+//int is_full();  return 1 if the stack is full, 0 otherwise
+//void print();  print the elements of the stack
+
+//Test the stack implementation by pushing 10 integers onto the stack, then popping 5 integers from the stack, 
+//and then pushing 5 more integers onto the stack. Print the elements of the stack after each operation.
+
+#include<stdio.h>
+#define stack_size 10
+
+int main_stack[stack_size] = {0};
+int pc=0;
+
+void push(int elements)
+{
+	if(pc!=stack_size)
+	{
+		main_stack[pc]=elements;
+		pc++;
+	}
+		
+}
+int pop()
+{
+	int new_elements = 0;
+        if(pc>=0)
+        {      
+		pc--;
+                new_elements = main_stack[pc];
+		main_stack[pc]=0;
+		return new_elements;
+	}
+}
+
+int is_empty()
+{
+    if(pc==0)
+	    return 1;
+    else
+	    return 0;
+}
+
+int is_full()
+{
+	if(pc == stack_size)
+		return 1;
+	else
+		return 0;
+}
+
+void print()
+{
+	int full =0 ; int empty = 0 ;
+	for(int j=0;j<stack_size;j++)
+        {
+                printf("elements[%d]: %d\n", j , main_stack[j]);
+        }
+        printf("the main stack is empty: %d\n", is_empty(empty));
+        printf("the main stack is full:  %d\n", is_full(full));
+
+}
+int main()
+{
+	int i , j ;
+        int elements;
+        printf("enter the elements\n");
+        for(i=0;i < stack_size; i++ )
+	{
+		printf("enter the elements[%d]:\n",i);
+	        scanf("%d", &elements);	
+		push(elements);
+	}
+	print();
+        for(int j=0; j<5 ; j++)
+        {
+             printf("elements[%d]:%d\n", j , pop());
+        }
+	print();
+	for(i=1;i<=5;i++)
+	{
+		push(i);
+	}
+	print();
+}
+
+results:
+input:
+
+enter the elements
+enter the elements[0]:
+0
+enter the elements[1]:
+1
+enter the elements[2]:
+2
+enter the elements[3]:
+3
+enter the elements[4]:
+4
+enter the elements[5]:
+5
+enter the elements[6]:
+6
+enter the elements[7]:
+7
+enter the elements[8]:
+8
+enter the elements[9]:
+9
+
+output:
+elements[0]: 0
+elements[1]: 1
+elements[2]: 2
+elements[3]: 3
+elements[4]: 4
+elements[5]: 5
+elements[6]: 6
+elements[7]: 7
+elements[8]: 8
+elements[9]: 9
+the main stack is empty: 0
+the main stack is full:  1
+elements[0]:9
+elements[1]:8
+elements[2]:7
+elements[3]:6
+elements[4]:5
+elements[0]: 0
+elements[1]: 1
+elements[2]: 2
+elements[3]: 3
+elements[4]: 4
+elements[5]: 0
+elements[6]: 0
+elements[7]: 0
+elements[8]: 0
+elements[9]: 0
+the main stack is empty: 0
+the main stack is full:  0
+elements[0]: 0
+elements[1]: 1
+elements[2]: 2
+elements[3]: 3
+elements[4]: 4
+elements[5]: 1
+elements[6]: 2
+elements[7]: 3
+elements[8]: 4
+elements[9]: 5
+the main stack is empty: 0
+the main stack is full:  1
+
